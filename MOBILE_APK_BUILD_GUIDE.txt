@@ -1,0 +1,18 @@
+BACKCARE – BUILD APK USING ONLY YOUR PHONE
+
+This project includes a GitHub Actions cloud build workflow.
+
+PHONE STEPS:
+1. Open github.com in Chrome and sign in/create a free account.
+2. Create a new repository named BackCare (Public or Private).
+3. Upload the CONTENTS of this ZIP to the repository root. Make sure the .github/workflows/android.yml file is included. If GitHub mobile upload hides dot-folders, use Chrome menu > Desktop site.
+4. Open the repository's Actions tab.
+5. Select "Build BackCare APK" and tap "Run workflow" (or wait for the first push build).
+6. When the run completes successfully, open that run, scroll to Artifacts, and download "BackCare-debug-APK".
+7. Extract the downloaded artifact ZIP and tap app-debug.apk to install. Android may ask you to allow Chrome/files to install unknown apps.
+
+IMPORTANT:
+- This produces a debug APK, suitable for personal testing, not a Play Store release.
+- If GitHub Actions reports a build error, open the run and share the error log.
+- No APK is compiled inside this chat; GitHub's cloud runner performs the build.
+- Exercise instructions are based on the supplied poster and are not a substitute for a physiotherapist's advice.

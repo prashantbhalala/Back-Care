@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="gu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#123c3a">
+<meta name="description" content="Gujarati guided back exercise routine">
+<link rel="manifest" href="manifest.json">
+<title>BackCare – કમરની કસરત</title>
+<style>
+:root{--bg:#f3f7f5;--card:#fff;--ink:#173431;--muted:#657875;--green:#147d68;--soft:#e4f2ed;--line:#dce7e2;--orange:#fff1dc}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans Gujarati",sans-serif}
+header{background:linear-gradient(135deg,#123c3a,#197d69);color:#fff;padding:22px 18px 26px;border-radius:0 0 24px 24px}
+header h1{font-size:25px;margin:0 0 4px}header p{margin:0;color:#d6eee7;font-size:14px}
+main{max-width:650px;margin:auto;padding:15px 14px 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 4px 15px #183a3210}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tabs{display:flex;background:#e5eeea;border-radius:12px;padding:4px;margin-top:15px}
+.tabs button{flex:1;border:0;background:transparent;color:var(--ink);padding:10px;border-radius:9px;font-weight:700}
+.tabs button.active{background:white;box-shadow:0 2px 7px #0001;color:var(--green)}
+.progress{height:9px;background:#e7efeb;border-radius:20px;overflow:hidden;margin:9px 0 4px}.bar{height:100%;background:#159675;width:0;transition:.2s}
+.eyebrow{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.3px}
+h2{font-size:21px;margin:7px 0 3px}h3{font-size:16px;margin:0 0 8px}
+.en{font-size:13px;color:var(--muted)}
+.demo{height:145px;border-radius:14px;background:linear-gradient(135deg,#e8f4ef,#d9ebe5);display:grid;place-items:center;margin:14px 0;color:#276657;text-align:center;padding:15px}
+.demo .symbol{font-size:54px;line-height:1.1}.demo small{display:block;margin-top:8px;color:#42675e}
+.instruction{line-height:1.75;font-size:15px}
+.counter{text-align:center;padding:12px}.count{font-size:43px;font-weight:800;letter-spacing:1px}
+button{font:inherit;cursor:pointer}.primary,.secondary,.stepbtn{border:0;border-radius:12px;padding:12px 15px;font-weight:750}
+.primary{background:var(--green);color:#fff}.secondary{background:#edf3f0;color:var(--ink);border:1px solid var(--line)}
+.primary:disabled{opacity:.4;cursor:not-allowed}
+.counter .primary{width:100%;margin-top:8px;font-size:16px}
+.controls{display:flex;gap:9px}.controls button{flex:1}
+.listitem{width:100%;border:0;border-bottom:1px solid var(--line);padding:12px 2px;background:transparent;text-align:left;display:flex;gap:11px;align-items:center;color:var(--ink)}
+.listitem:last-child{border-bottom:0}.num{width:30px;height:30px;border-radius:50%;background:#e9f3ef;display:grid;place-items:center;font-weight:800;color:var(--green);flex-shrink:0}
+.listitem.done .num{background:#d8f2e6}.listitem small{display:block;color:var(--muted);margin-top:3px}
+.note{background:var(--orange);border:1px solid #f1dfbf;border-radius:14px;padding:13px;font-size:13px;line-height:1.6;color:#664b20}
+.field{display:flex;gap:8px;align-items:center;flex-wrap:wrap}input[type=time]{padding:9px;border:1px solid var(--line);border-radius:9px;font:inherit}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:12px}
+.hidden{display:none!important}
+@media(min-width:520px){header{padding-left:max(18px,calc((100% - 620px)/2));padding-right:max(18px,calc((100% - 620px)/2))}}
+</style>
+</head>
+<body>
+<header>
+  <h1>BackCare</h1>
+  <p>કમરની કસરત • સરળ ગુજરાતી માર્ગદર્શન</p>
+  <div class="tabs" role="tablist">
+    <button id="morning" class="active" onclick="setSession('સવાર')">સવાર</button>
+    <button id="evening" onclick="setSession('સાંજ')">સાંજ</button>
+  </div>
+</header>
+<main>
+  <section class="card">
+    <div class="row"><strong>આજની પ્રગતિ</strong><strong id="progressText">0 / 7 પૂર્ણ</strong></div>
+    <div class="progress"><div class="bar" id="progressBar"></div></div>
+    <div class="eyebrow" id="sessionLabel">સવારનું સેશન</div>
+  </section>
+
+  <section class="card" id="exerciseCard">
+    <div class="row"><span class="eyebrow" id="stepLabel">કસરત 1 / 7</span><span class="eyebrow">લક્ષ્ય: 15 રિપીટેશન</span></div>
+    <h2 id="exerciseName"></h2>
+    <div class="en" id="exerciseEnglish"></div>
+    <div class="demo"><div><div class="symbol" id="exerciseSymbol">🧘</div><strong id="exerciseVisual"></strong><small>ચિત્રાત્મક માર્ગદર્શન • હલનચલન ધીમે કરો</small></div></div>
+    <div class="instruction" id="exerciseSteps"></div>
+    <p class="eyebrow" id="holdText"></p>
+    <div class="counter">
+      <div class="eyebrow">તમારા રિપીટેશન</div>
+      <div class="count"><span id="repCount">0</span><span style="font-size:20px;color:#82938e"> / 15</span></div>
+      <button class="primary" id="repButton" onclick="addRep()">+ 1 રિપીટેશન પૂર્ણ</button>
+    </div>
+    <div class="controls">
+      <button class="secondary" onclick="previousExercise()">પાછળ</button>
+      <button class="primary" id="nextButton" onclick="nextExercise()" disabled>આગળની કસરત</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>તમારી 7 કસરતો</h3>
+    <div id="exerciseList"></div>
+  </section>
+
+  <section class="card">
+    <h3>દૈનિક રિમાઇન્ડર</h3>
+    <p class="en">બ્રાઉઝરમાં પરવાનગી આપ્યા પછી સૂચના સેટ કરો. એપ/બ્રાઉઝર બંધ હોય ત્યારે દરેક Android પર સૂચના મળવાની ખાતરી નથી.</p>
+    <div class="field"><label>સવાર <input type="time" id="morningTime" value="07:00"></label><label>સાંજ <input type="time" id="eveningTime" value="19:00"></label></div>
+    <button class="secondary" style="margin-top:10px;width:100%" onclick="saveReminders()">રિમાઇન્ડર સેટ કરો</button>
+    <div id="reminderStatus" class="en" style="margin-top:8px"></div>
+  </section>
+
+  <div class="note"><strong>સાવચેતી:</strong> આ રૂટિન તમારા પોસ્ટરના આધારે તૈયાર કરેલી છે, વ્યક્તિગત નિદાન નથી. સાયટિકા/ડિસ્કની તકલીફમાં દરેક કસરત યોગ્ય હોય એવું નથી. ફિઝિયોથેરાપિસ્ટની મંજૂરી પછી જ શરૂ કરો. દુખાવો પગમાં વધે, સુનકાર કે નબળાઈ વધે તો કસરત રોકો. પેશાબ/મળ પર કાબૂમાં નવી તકલીફ અથવા ગુપ્તાંગ આસપાસ સુનકાર થાય તો તાત્કાલિક ઇમરજન્સી સારવાર લો.</div>
+  <footer>પ્રગતિ આ ડિવાઇસના બ્રાઉઝરમાં સાચવાય છે.</footer>
+</main>
+<script>
+const exercises=[
+{name:"આઇસોમેટ્રિક બેક અને એબ્ડોમિનલ",en:"Isometric Back & Abdominal",steps:"પીઠ પર સીધા સૂઈ જાઓ. પેટના સ્નાયુઓને હળવેથી અંદર ખેંચો અને કમરના નીચેના ભાગને જમીન તરફ દબાવો. આરામથી શ્વાસ લેતા રહો, પછી છોડી દો.",hold:"પોસ્ટર મુજબ: આશરે 10 સેકન્ડ હોલ્ડ",visual:"પીઠ પર સૂઈ કમર જમીન તરફ દબાવો",symbol:"🛏️"},
+{name:"આઇસોમેટ્રિક એબ્ડોમિનલ",en:"Isometric Abdominal",steps:"પીઠ પર સૂઈને બંને ઘૂંટણ વાળો અને પગ જમીન પર રાખો. પેટના સ્નાયુઓ હળવેથી કસો, સામાન્ય શ્વાસ ચાલુ રાખો અને પછી ઢીલા છોડો.",hold:"પોસ્ટર મુજબ: આશરે 10 સેકન્ડ હોલ્ડ",visual:"ઘૂંટણ વાળીને પેટના સ્નાયુ કસો",symbol:"🧘"},
+{name:"બ્રિજિંગ એક્સરસાઇઝ",en:"Bridging Exercise",steps:"પીઠ પર સૂઈને બંને ઘૂંટણ વાળો. પગ જમીન પર રાખો. હિપ્સ ધીમે ઉપર ઉઠાવો, શરીર ખભાથી ઘૂંટણ સુધી સીધી લાઇનમાં લાવો. આરામથી નીચે આવો.",hold:"પોસ્ટર મુજબ: આશરે 10 સેકન્ડ હોલ્ડ",visual:"હિપ્સ ધીમે ઉપર ઉઠાવો",symbol:"⬆️"},
+{name:"બંને પગ વાળવા અને સીધા કરવા",en:"Leg Bending & Straightening",steps:"પીઠ પર સૂઈને ઘૂંટણ વાળો. એક પગને ધીમેથી સીધો કરો અને પાછો વાળો. પછી બીજી બાજુ કરો. કમર અને પેલ્વિસને સ્થિર રાખો.",hold:"ધીમે અને નિયંત્રણથી કરો",visual:"એક પગ સીધો કરો, પછી બદલો",symbol:"🦵"},
+{name:"પ્રોન એલ્બો એક્સટેન્શન",en:"Prone Elbow Extension",steps:"પેટના બળે સૂઈ જાઓ. કોણી અને હાથનો ટેકો લઈને છાતીનો ભાગ થોડો ઉપર ઉઠાવો. કમરને જોરથી વાળશો નહીં. દુખાવો વધે તો તરત રોકો.",hold:"પોસ્ટર મુજબ: આશરે 10 સેકન્ડ હોલ્ડ",visual:"પેટ પર સૂઈ કોણીનો ટેકો લો",symbol:"↗️"},
+{name:"પ્રોન પોઝિશન હિપ એક્સટેન્શન",en:"Prone Hip Extension",steps:"પેટના બળે સીધા સૂઈ જાઓ. એક પગ સીધો રાખીને થોડો ઉપર ઉઠાવો, કમરને વાંકી ન કરો. ધીમે નીચે મૂકો અને પછી બીજો પગ કરો.",hold:"પોસ્ટર મુજબ: આશરે 10 સેકન્ડ હોલ્ડ",visual:"એક સીધો પગ થોડો ઉપર ઉઠાવો",symbol:"🦵"},
+{name:"ડેડ બગ એક્સરસાઇઝ",en:"Dead Bug – Core Muscle Training",steps:"પીઠ પર સૂઈને હાથ ઉપર રાખો અને ઘૂંટણ 90 ડિગ્રી વાળો. એક હાથ પાછળ લઈ જતાં વિરુદ્ધ પગ ધીમે સીધો કરો. પાછા આવો અને બીજી બાજુ કરો. કમર સ્થિર રાખો.",hold:"ધીમે અને નિયંત્રણથી કરો",visual:"વિરુદ્ધ હાથ અને પગ લંબાવો",symbol:"🐞"}
+];
+let session='સવાર',index=0,reps=0;
+let progress=JSON.parse(localStorage.getItem('bc-progress')||'{}');
+function today(){let d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function key(){return today()+'-'+session}
+function doneSet(){return new Set(progress[key()]||[])}
+function save(){progress[key()]=[...doneSet()];localStorage.setItem('bc-progress',JSON.stringify(progress))}
+function render(){
+ const e=exercises[index],done=doneSet();
+ document.getElementById('stepLabel').textContent=`કસરત ${index+1} / 7`;
+ document.getElementById('exerciseName').textContent=e.name;
+ document.getElementById('exerciseEnglish').textContent=e.en;
+ document.getElementById('exerciseSteps').textContent=e.steps;
+ document.getElementById('holdText').textContent=e.hold;
+ document.getElementById('exerciseVisual').textContent=e.visual;
+ document.getElementById('exerciseSymbol').textContent=e.symbol;
+ document.getElementById('repCount').textContent=reps;
+ document.getElementById('repButton').disabled=reps>=15;
+ document.getElementById('repButton').textContent=reps>=15?'કસરત પૂર્ણ થઈ ✓':'+ 1 રિપીટેશન પૂર્ણ';
+ document.getElementById('nextButton').disabled=reps<15;
+ document.getElementById('nextButton').textContent=index===6?'સેશન પૂર્ણ કરો':'આગળની કસરત';
+ document.getElementById('progressText').textContent=`${done.size} / 7 પૂર્ણ`;
+ document.getElementById('progressBar').style.width=(done.size/7*100)+'%';
+ document.getElementById('exerciseList').innerHTML=exercises.map((x,i)=>`<button class="listitem ${done.has(i)?'done':''}" onclick="goTo(${i})"><span class="num">${done.has(i)?'✓':i+1}</span><span><strong>${x.name}</strong><small>${x.hold}</small></span></button>`).join('');
+}
+function addRep(){if(reps<15){reps++;if(reps===15){let d=doneSet();d.add(index);save()}render()}}
+function goTo(i){index=i;reps=0;render()}
+function previousExercise(){if(index>0){index--;reps=0;render()}}
+function nextExercise(){if(reps<15)return;if(index<6){index++;reps=0;render()}else{alert('શાબાશ! તમારું '+session+'નું સેશન પૂર્ણ થયું.');index=0;reps=0;render()}}
+function setSession(s){session=s;index=0;reps=0;document.getElementById('morning').classList.toggle('active',s==='સવાર');document.getElementById('evening').classList.toggle('active',s==='સાંજ');document.getElementById('sessionLabel').textContent=s+'નું સેશન';render()}
+async function saveReminders(){
+ const status=document.getElementById('reminderStatus');
+ if(!('Notification'in window)){status.textContent='આ બ્રાઉઝરમાં સૂચનાઓ ઉપલબ્ધ નથી.';return}
+ const permission=await Notification.requestPermission();
+ if(permission!=='granted'){status.textContent='સૂચનાની પરવાનગી મળી નથી.';return}
+ localStorage.setItem('bc-reminders',JSON.stringify({morning:document.getElementById('morningTime').value,evening:document.getElementById('eveningTime').value}));
+ status.textContent='સમય સાચવાયો. સૂચના માટે એપ ખુલ્લી રાખો; બંધ હોય ત્યારે સૂચના નિશ્ચિત નથી.';
+}
+if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+render();
+</script>
+</body>
+</html>
